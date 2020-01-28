@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour
+public class PlayerControler : MonoBehaviour
 {
-
+    [Header("General:")]
     [Tooltip("In ms^-1")]
     [SerializeField]
     float SpeedFactor = 4f;
+    
+
+    [Header("Space-based parameters: ")]
     [SerializeField]
     float xRange = 0.06f;
     [SerializeField]
     float yRange = 0.6f;
+
+    [Header("Throw-based parameters:")]
     [SerializeField]
     float positionPitchFactor = -30f;
     [SerializeField]
@@ -24,6 +29,7 @@ public class Player : MonoBehaviour
 
 
     float horizonatlThrow, verticalThrow;
+    bool isControlEnabled = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,10 +39,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovementControl();
-        RotationControl();    
-    }  
+        if (isControlEnabled)
+        {
+            MovementControl();
+            RotationControl();
+        }
+        
+    }
 
+    void ControlIsDead()
+    {
+        isControlEnabled = false;
+    }
 
     public void MovementControl()
     {
